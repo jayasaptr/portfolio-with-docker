@@ -1,16 +1,19 @@
-import { About } from "./components/About";
 import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
 import { Navbar } from "./components/Navbar";
-import { Portfolio } from "./components/Portfolio";
+import DetailPortfolio from "./pages/DetailPortfolio";
+import HomePage from "./pages/HomePage";
+import NotFound from "./pages/NotFound";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
       <Navbar />
-      <Header />
-      <Portfolio />
-      <About />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/detail-portfolio/:id" element={<DetailPortfolio />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       <Footer />
     </>
   );

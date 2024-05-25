@@ -1,4 +1,5 @@
 import { Card } from "./Card";
+import { Link } from "react-router-dom";
 export const Portfolio = () => {
   return (
     <section id="portfolio" className="py-10">
@@ -7,9 +8,9 @@ export const Portfolio = () => {
           Portfolio
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 w-full gap-6">
-          <Card />
-          <Card />
-          <Card />
+          <Link to="/detail-portfolio/1">
+            <Card />
+          </Link>
         </div>
       </div>
     </section>

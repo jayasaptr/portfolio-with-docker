@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
   ],
   prefix: "",
   theme: {
@@ -15,11 +15,11 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
-    
     },
     fontFamily: {
       sans: ["Space Grotesk", "sans-serif"],
       serif: ["Overpass", "sans-serif"],
+      mono: ["Space Grotesk", "sans-serif"],
     },
     extend: {
       colors: {
@@ -79,4 +79,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

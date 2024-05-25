@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -11,7 +12,9 @@ export const Footer = () => {
         </div>
         <p className="text-xs">Copyright © 2024 Itechdev. made with love ❤</p>
       </div>
-      <Button className="mt-4 self-end md:self-auto">Contact Me</Button>
+      <Button className="mt-4 self-end md:self-auto">
+        <Link to="https://wa.me/6285651923925">Contact Me</Link>
+      </Button>
     </footer>
   );
 };

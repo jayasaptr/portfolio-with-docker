@@ -11,7 +11,7 @@ export const Navbar = () => {
   return (
     <header className="container py-4  shadow-md">
       <div className="flex justify-between items-center ">
-        <Link>
+        <Link to="/">
           <p className="font-bold font-sans text-2xl hover:cursor-pointer">
             Itechdev
           </p>
@@ -34,13 +34,19 @@ export const Navbar = () => {
       {isShow && (
         <ul className="md:hidden flex flex-col items-center justify-center gap-4 mt-5 ">
           <li>
-            <HashLink to="/#portfolio">Portfolio</HashLink>
+            <HashLink onClick={handleShow} to="/#portfolio">
+              Portfolio
+            </HashLink>
           </li>
           <li>
-            <HashLink to="/#about">About</HashLink>
+            <HashLink onClick={handleShow} to="/#about">
+              About
+            </HashLink>
           </li>
           <li>
-            <Link to="/experiance">#Experiance</Link>
+            <Link onClick={handleShow} to="/experiance">
+              #Experiance
+            </Link>
           </li>
         </ul>
       )}
