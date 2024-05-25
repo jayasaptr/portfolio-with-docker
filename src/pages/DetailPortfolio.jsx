@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import SharpImage from "../assets/images/sharp.png";
 import { FiClock } from "react-icons/fi";
+import { ScrollToTop } from "@/components/ScropToTop";
 
 const DetailPortfolio = () => {
   const { id } = useParams();
@@ -58,6 +59,7 @@ const DetailPortfolio = () => {
           </p>
         </div>
       </div>
+      <ScrollToTop />
     </>
   );
 };

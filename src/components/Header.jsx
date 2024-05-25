@@ -5,7 +5,7 @@ import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 export const Header = () => {
   return (
     <>
-      <div className="bg-yellow-400 md:h-[50vh]  lg:h-[80vh] p-8 m-8 rounded-sm flex flex-col justify-center gap-8 relative border-slate-800 shadow-[4px_4px_0_0_rgba(0,0,0,0.1)] shadow-slate-800 border-2 mx-8">
+      <div className="bg-yellow-400 md:h-[60vh]  lg:h-[80vh] p-8 m-8 rounded-sm flex flex-col justify-center gap-8 relative border-slate-800 shadow-[4px_4px_0_0_rgba(0,0,0,0.1)] shadow-slate-800 border-2 mx-8">
         <div className="md:absolute md:top-0 md:left-0 ml-4 mt-4 gap-2 md:flex flex-col hidden">
           <div className="w-40 h-1 bg-black "></div>
           <div className="w-20 h-1 bg-black "></div>
@@ -25,7 +25,7 @@ export const Header = () => {
             Frontend Developer - Backend Developer - Mobile Developer
           </p>
         </div>
-        <div className="md:absolute md:bottom-0 md:right-0 mb-4 md:mr-8">
+        <div className="lg:absolute lg:bottom-0 lg:right-0 mb-4 md:mr-8">
           <div className="flex gap-6 justify-center">
             <Link
               to="https://github.com/jayasaptr"

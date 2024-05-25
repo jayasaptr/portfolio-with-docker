@@ -7,11 +7,11 @@ export const Card = () => {
       <div className="border-slate-800 shadow-[4px_4px_0_0_rgba(0,0,0,0.1)] shadow-slate-800 border-2 p-2 hover:scale-105 transition-transform duration-300">
         <div className="flex gap-10 justify-between">
           <div className="flex gap-3 items-center">
-            <div className="h-14 w-16 md:w-14 bg-red-400 rounded-md">
+            <div className="h-14 w-16 md:14 bg-red-400 rounded-md ">
               <img
                 src={LogoSharp}
                 alt="Logo Sharp"
-                className="w-full h-full bg-cover"
+                className="min-w-full min-h-full object-cover"
               />
             </div>
             <div className="flex flex-col">
