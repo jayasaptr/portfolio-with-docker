@@ -4,7 +4,6 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -23,7 +22,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
+import Cookies from "js-cookie";
 
 //validasi input login
 const loginFormSchema = z.object({
@@ -43,16 +46,26 @@ const LoginPage = () => {
     reValidateMode: "onSubmit",
   });
 
+  const navigate = useNavigate();
+
+  const { setIsAuthenticated } = useContext(AuthContext);
+  const [loginFailed, setLoginFailed] = useState([]);
+
   const [isChecked, setIsChecked] = useState(false);
   const handleLogin = async (data) => {
+    const formData = new FormData();
+
+    formData.append("email", data.email);
+    formData.append("password", data.password);
     try {
-      // const response = await axios.post(
-      //   `${process.env.REACT_APP_BASE_URL}/api/auth/login`,
-      //   data
-      // );
-      console.log("🚀 ~ handleLogin ~ response:", response);
+      await api.post("api/v1/auth/login", formData).then((response) => {
+        Cookies.set("token", response.data.data.token);
+        Cookies.set("user", response.data.data);
+        setIsAuthenticated(true);
+        navigate("/dashboard", { replace: true });
+      });
     } catch (error) {
-      console.error("🚀 ~ handleLogin ~ error:", error);
+      setLoginFailed(error.response.data.data);
     }
   };
 
@@ -91,8 +104,8 @@ const LoginPage = () => {
                         type={isChecked ? "text" : "password"}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Password must be at least 8 characters
+                    <FormDescription className="text-red-500">
+                      {loginFailed ?? ""}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

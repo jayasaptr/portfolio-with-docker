@@ -9,6 +9,7 @@ import NotFound from "../pages/NotFound";
 import LoginPage from "../pages/LoginPage";
 import LayoutDashboard from "../pages/Dashboard/LayoutDashboard";
 import { Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function AppRoutes() {
   const { isAuthenticated } = useContext(AuthContext);
@@ -25,8 +26,87 @@ export default function AppRoutes() {
           </>
         }
       />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/dashboard" element={<LayoutDashboard />} />
+      <Route
+        path="/login"
+        element={
+          isAuthenticated ? <Navigate to="/dashboard" replace /> : <LoginPage />
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route
+        path="/skills/create"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+      <Route
+        path="/skills/edit/:id"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/experience/create"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/experience/edit/:id"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/portfolio/edit/:id"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
+      <Route
+        path="/portfolio/create"
+        element={
+          isAuthenticated ? (
+            <LayoutDashboard />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      />
+
       <Route
         path="/detail-portfolio/:id"
         element={
