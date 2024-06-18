@@ -38,6 +38,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import exp from "constants";
 
 const UpdatePortfolioSchema = z.object({
   title: z.string(),
@@ -63,18 +64,32 @@ const UpdatePortfolioPage = () => {
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [dataContent, setDataContent] = useState("");
   const [skills, setSkills] = useState([]);
+  const [experiences, setExperiences] = useState([]);
   const [skillsSelect, setSkillsSelect] = useState([]);
+  const [experienceSelect, setExperienceSelect] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [date, setDate] = useState();
 
   const fetchDataSkills = async () => {
     try {
-      const response = await api.get("/api/v1/skills");
+      const response = await api.get("/api/v1/skills?limit=100");
       setSkills(response.data.data || []);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching skills:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const fetchExperiences = async () => {
+    try {
+      const response = await api.get("/api/v1/experience");
+      console.log("🚀 ~ fetchExperiences ~ response", response);
+      setExperiences(response.data.data.experience || []);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching experiences:", error);
       setIsLoading(false);
     }
   };
@@ -93,7 +108,8 @@ const UpdatePortfolioPage = () => {
       setDataContent(portfolio.content);
       setDate(new Date(portfolio.date_project));
       setSkillsSelect(portfolio.skills || []);
-      setPreviewImage(portfolio.image_url);
+      setExperienceSelect(portfolio.experience.id || "");
+      setPreviewImage(portfolio.image);
     } catch (error) {
       console.error("Error fetching portfolio data:", error);
     }
@@ -119,6 +135,7 @@ const UpdatePortfolioPage = () => {
     formData.append("content", dataContent);
     formData.append("status", data.status);
     formData.append("date_project", format(date, "yyyy-MM-dd"));
+    formData.append("experience_id", experienceSelect);
     if (skillImage) {
       formData.append("image", skillImage);
     }
@@ -154,6 +171,7 @@ const UpdatePortfolioPage = () => {
   useEffect(() => {
     setEditorLoaded(true);
     fetchDataSkills();
+    fetchExperiences();
     fetchPortfolioData();
   }, []);
 
@@ -303,6 +321,34 @@ const UpdatePortfolioPage = () => {
                 </Select>
               )}
             </div>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Experience</FormLabel>
+            <Select
+              value={experienceSelect ? experienceSelect : experienceSelect.id}
+              onValueChange={(value) => {
+                const selectedExperience = experiences.find(
+                  (experience) => experience.id === value
+                );
+                if (selectedExperience) {
+                  console.log("🚀 ~ selectedExperience", selectedExperience.id);
+                  setExperienceSelect(selectedExperience.id);
+                }
+              }}
+            >
+              <SelectTrigger className="w-[280px]">
+                <SelectValue placeholder="Select Experience" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {experiences.map((experience) => (
+                    <SelectItem key={experience.id} value={experience.id}>
+                      {experience.company_name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </FormItem>
           <Button type="submit" className="mt-4">
             Submit

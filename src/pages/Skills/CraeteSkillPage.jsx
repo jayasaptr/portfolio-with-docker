@@ -39,7 +39,7 @@ const CreateSkillPage = () => {
       const response = await api.post("/api/v1/skills", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
 

@@ -63,18 +63,31 @@ const CreatePortfolioPage = () => {
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [dataContent, setDataContent] = useState("");
   const [skills, setSkills] = useState([]);
+  const [experiences, setExperiences] = useState([]);
   const [skillsSelect, setSkillsSelect] = useState([]);
+  const [experienceSelect, setExperiencesSelect] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [date, setDate] = useState();
 
   const fetchDataSkills = async () => {
     try {
-      const response = await api.get("/api/v1/skills");
-      setSkills(response.data.data);
+      const response = await api.get("/api/v1/skills?limit=100");
+      setSkills(response.data.data || []);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching skills:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const fetchDataExperience = async () => {
+    try {
+      const response = await api.get("/api/v1/experience");
+      setExperiences(response.data.data.experience || []);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching experiences:", error);
       setIsLoading(false);
     }
   };
@@ -100,6 +113,7 @@ const CreatePortfolioPage = () => {
     formData.append("status", data.status);
     formData.append("date_project", format(date, "yyyy-MM-dd"));
     formData.append("image", skillImage);
+    formData.append("experience_id", experienceSelect.id);
     skillsSelect.forEach((skillId) => {
       formData.append("skill_ids", skillId.id);
     });
@@ -108,6 +122,7 @@ const CreatePortfolioPage = () => {
 
     const token = Cookies.get("token");
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Content-Type"] = "multipart/form-data";
 
     try {
       const response = await api.post("/api/v1/portfolio", formData);
@@ -131,6 +146,7 @@ const CreatePortfolioPage = () => {
 
   useEffect(() => {
     setEditorLoaded(true);
+    fetchDataExperience();
     fetchDataSkills();
   }, []);
 
@@ -280,6 +296,32 @@ const CreatePortfolioPage = () => {
                 </Select>
               )}
             </div>
+          </FormItem>
+          <FormItem>
+            <FormLabel>Experience</FormLabel>
+            <Select
+              onValueChange={(value) => {
+                const selectedExperience = experiences.find(
+                  (experience) => experience.id === value
+                );
+                if (selectedExperience) {
+                  setExperiencesSelect(selectedExperience);
+                }
+              }}
+            >
+              <SelectTrigger className="w-[280px]">
+                <SelectValue placeholder="Select Experience" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {experiences.map((experience) => (
+                    <SelectItem key={experience.id} value={experience.id}>
+                      {experience.company_name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </FormItem>
           <Button type="submit" className="mt-4">
             Submit

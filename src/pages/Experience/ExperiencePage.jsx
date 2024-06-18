@@ -42,7 +42,7 @@ const ExpereincePage = () => {
     try {
       await api.delete(`/api/v1/experience/${id}`, {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
       fetchDataExperience();

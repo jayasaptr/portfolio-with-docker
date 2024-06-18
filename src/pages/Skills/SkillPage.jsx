@@ -24,7 +24,7 @@ const SkillPage = () => {
 
   const fetchDataSkills = async () => {
     try {
-      const response = await api.get("/api/v1/skills");
+      const response = await api.get("/api/v1/skills?limit=100");
       setSkills(response.data.data || []);
       console.log(response.data.data);
       setLoading(false);
@@ -39,10 +39,14 @@ const SkillPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
+    console.log(id);
     setLoading(true);
     try {
-      api.defaults.headers.common["Authorization"] = Cookies.get("token");
-      await api.delete(`/api/v1/skills/${id}`);
+      await api.delete(`/api/v1/skills/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       fetchDataSkills();
     } catch (error) {
       setLoading(false);

@@ -73,7 +73,7 @@ const UpdateExperiencePage = () => {
   const fetchDataSkills = async () => {
     //fetch data
     try {
-      const response = await api.get("/api/v1/skills");
+      const response = await api.get("/api/v1/skills?limit=100");
       setSkills(response.data.data);
       setIsLoading(false);
       console.log(response.data.data);
@@ -134,7 +134,7 @@ const UpdateExperiencePage = () => {
       const response = await api.put(`/api/v1/experience/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
 

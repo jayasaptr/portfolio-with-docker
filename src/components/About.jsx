@@ -1,23 +1,22 @@
-import {
-  FaPhp,
-  FaReact,
-  FaLinux,
-  FaDocker,
-  FaAppStoreIos,
-  FaLaravel,
-  FaGitAlt,
-} from "react-icons/fa";
-import { FaGolang } from "react-icons/fa6";
-import { IoLogoJavascript } from "react-icons/io5";
-import {
-  SiPostgresql,
-  SiMysql,
-  SiFlutter,
-  SiAndroidstudio,
-  SiFirebase,
-  SiTailwindcss,
-} from "react-icons/si";
+import { useEffect } from "react";
+import { useState } from "react";
+import api from "@/services/api";
+
 export const About = () => {
+  const [skills, setSkills] = useState([]);
+  const fetchSkills = async () => {
+    try {
+      const response = await api.get("/api/v1/skills?limit=100");
+      setSkills(response.data.data);
+    } catch (error) {
+      console.log("🚀 ~ fetchSkills ~ error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
   return (
     <section id="about" className="py-10">
       <div className="flex justify-center flex-col items-center gap-8 mx-8">
@@ -42,21 +41,15 @@ export const About = () => {
           Programming Language & Tools
         </h3>
         <div className="flex gap-4 flex-wrap justify-center text-3xl md:text-5xl max-w-[600px]">
-          <FaGolang className="hover:text-blue-500 transition-colors duration-300 hover:scale-105" />
-          <IoLogoJavascript className="hover:text-yellow-500 transition-colors duration-300 hover:scale-105" />
-          <FaPhp className="hover:text-purple-500 transition-colors duration-300 hover:scale-105" />
-          <SiPostgresql className="hover:text-blue-700 transition-colors duration-300 hover:scale-105" />
-          <SiMysql className="hover:text-blue-800 transition-colors duration-300 hover:scale-105" />
-          <FaReact className="hover:text-cyan-500 transition-colors duration-300 hover:scale-105" />
-          <SiFlutter className="hover:text-blue-400 transition-colors duration-300 hover:scale-105" />
-          <FaLinux className="hover:text-black transition-colors duration-300 hover:scale-105" />
-          <FaDocker className="hover:text-blue-300 transition-colors duration-300 hover:scale-105" />
-          <SiAndroidstudio className="hover:text-green-600 transition-colors duration-300 hover:scale-105" />
-          <FaAppStoreIos className="hover:text-gray-800 transition-colors duration-300 hover:scale-105" />
-          <SiFirebase className="hover:text-yellow-600 transition-colors duration-300 hover:scale-105" />
-          <SiTailwindcss className="hover:text-teal-400 transition-colors duration-300 hover:scale-105" />
-          <FaLaravel className="hover:text-red-500 transition-colors duration-300 hover:scale-105" />
-          <FaGitAlt className="hover:text-orange-500 transition-colors duration-300 hover:scale-105" />
+          {skills.map((skill) => (
+            <div key={skill.id} className="flex items-center gap-2">
+              <img
+                src={skill.image}
+                alt={skill.name}
+                className="h-8 hover:scale-x-105 duration-300 transition-all brightness-50 hover:brightness-100 ease-in-out"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>

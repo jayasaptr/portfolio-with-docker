@@ -61,7 +61,7 @@ const UpdateSkillPage = () => {
       const response = await api.put(`/api/v1/skills/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: token,
+          Authorization: `Bearer ${token}`,
         },
       });
 

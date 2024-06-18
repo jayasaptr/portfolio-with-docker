@@ -33,9 +33,12 @@ const PortfolioPage = () => {
 
   const handleDelete = async (portfolioId) => {
     const token = Cookies.get("token");
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     try {
-      const response = await api.delete(`api/v1/portfolio/${portfolioId}`);
+      const response = await api.delete(`api/v1/portfolio/${portfolioId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.status === 200) {
         setPortfolios(
           portfolios.filter((portfolio) => portfolio.id !== portfolioId)
